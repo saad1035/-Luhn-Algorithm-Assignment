@@ -1,3 +1,9 @@
+/*
+ * Date: April 1, 2021
+ * Name: Saad Naeem & Johnny He
+ * Teacher: Mr.Ho
+ * Description: Luhn Algorithm Assignment 
+ * */
 // Throughout this project, the use of data structures are not permitted such as methods like .split and .toCharArray
 
 
@@ -16,16 +22,18 @@ class CustomerSystem{
         exitCondition = "9";
 
         // More variables for the main may be declared in the space below
-
+        String blankString = "";
 
         do{
-            printMenu();                                    // Printing out the main menu
+            printMenu();      
+            reader.nextLine();                              // Printing out the main menu
             userInput = reader.nextLine();                  // User selection from the menu
 
             if (userInput.equals(enterCustomerOption)){
                 // Only the line below may be editted based on the parameter list and how you design the method return
 		        // Any necessary variables may be added to this if section, but nowhere else in the code
-                enterCustomerInfo();
+                String stringCombine = enterCustomerInfo(blankString);
+                System.out.println(stringCombine);
             }
             else if (userInput.equals(generateCustomerOption)) {
                 // Only the line below may be editted based on the parameter list and how you design the method return
@@ -51,11 +59,64 @@ class CustomerSystem{
         );
     }
     /*
-    * This method may be edited to achieve the task however you like.
-    * The method may not nesessarily be a void return type
-    * This method may also be broken down further depending on your algorithm
+     * Gets the user to input information regarding him - Name, City, Postal Code and Credit Card //#endregion
+     * 
+     * @param blankString - An empty string 
+     * @return stringCombine - All the user input's combined (name, city, postal code, credit card)
     */
-    public static void enterCustomerInfo() {
+    public static String enterCustomerInfo(String blankString) {
+        Scanner reader = new Scanner(System.in);
+
+        System.out.println("First Name: ");
+        String firstName = reader.nextLine();
+        System.out.println("Last Name: ");
+        String lastName = reader.nextLine();
+        System.out.println("City: ");
+        String userCity = reader.nextLine();
+        System.out.println("Postal Code: ");
+        String postalCode = reader.nextLine();
+        System.out.println("Credit Card Number: ");
+        String creditNumber = reader.nextLine();
+
+        System.out.println("Thanks for filling out the information. Before we begin to validate we would like to confirm if");
+        System.out.println("the correct information was inputted. Please take a chance to review");
+        System.out.println("Name: " + firstName + " " + lastName);
+        System.out.println("City: " + userCity);
+        System.out.println("Postal Code: " + postalCode);
+        System.out.println("creditNumber: " + creditNumber);
+        System.out.println("Type 1 if the correct information was inputted. Type 2 if you would like to retype");
+        int userChoice = reader.nextInt();
+        reader.nextLine();
+        
+
+        while (userChoice == 2) {
+            System.out.println("First Name: ");
+            firstName = reader.nextLine();
+            System.out.println("Last Name: ");
+            lastName = reader.nextLine();
+            System.out.println("City: ");
+            userCity = reader.nextLine();
+            System.out.println("Postal Code: ");
+            postalCode = reader.nextLine();
+            System.out.println("Credit Card Number: ");
+            creditNumber = reader.nextLine();
+
+            System.out.println("Thanks for filling out the information. Before we begin to validate we would like to confirm if");
+            System.out.println("the correct information was inputted. Please take a chance to review");
+            System.out.println("Name: " + firstName + " " + lastName);
+            System.out.println("City: " + userCity);
+            System.out.println("Postal Code: " + postalCode);
+            System.out.println("Credit Card Number: " + creditNumber);
+            System.out.println("Type 1 if the correct information was inputted. Type 2 if you would like to retype");
+            userChoice = reader.nextInt();
+            reader.nextLine();
+        }
+
+        String stringCombine = firstName + lastName + userCity + postalCode + creditNumber;
+        
+        reader.close();
+
+        return stringCombine;
     }
     /*
     * This method may be edited to achieve the task however you like.
