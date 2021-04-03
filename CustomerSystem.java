@@ -25,15 +25,13 @@ class CustomerSystem{
         String blankString = "";
 
         do{
-            printMenu();      
-            reader.nextLine();                              // Printing out the main menu
+            printMenu();                                    // Printing out the main menu
             userInput = reader.nextLine();                  // User selection from the menu
 
             if (userInput.equals(enterCustomerOption)){
                 // Only the line below may be editted based on the parameter list and how you design the method return
 		        // Any necessary variables may be added to this if section, but nowhere else in the code
-                String stringCombine = enterCustomerInfo(blankString);
-                System.out.println(stringCombine);
+                String infoCombine = enterCustomerInfo(blankString);
             }
             else if (userInput.equals(generateCustomerOption)) {
                 // Only the line below may be editted based on the parameter list and how you design the method return
