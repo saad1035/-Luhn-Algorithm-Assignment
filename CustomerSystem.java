@@ -11,6 +11,9 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.BufferedWriter;
+import java.io.*; 
+
 
 class CustomerSystem{
     public static void main(String[] args) throws FileNotFoundException{
@@ -133,10 +136,9 @@ class CustomerSystem{
         }
 
         // Combine the user information into one string and return it
-        String stringCombine = customerId + " " + firstName + " " + lastName + " " + userCity + " " + postalCode + " " + creditNumber;
+        String stringCombine = customerId + "," + firstName + "," + lastName + "," + userCity + "," + postalCode + "," + creditNumber;
 
         // Close Scanner
-        reader.close();
 
         // Return string
         return stringCombine;
@@ -263,21 +265,18 @@ class CustomerSystem{
     */
     public static void generateCustomerDataFile(String stringCombine, String fileName) {
         try {
-            Scanner in = new Scanner(System.in);
+            FileWriter fw = new FileWriter(fileName + ".csv", true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter writer = new PrintWriter(bw);
 
-            File csvFile = new File(fileName + ".csv");
-            PrintWriter writer = new PrintWriter(csvFile);
-
-            writer.write(stringCombine + "\n");
-
-            in.close();
+            writer.println(stringCombine);
+            writer.flush();
             writer.close();
+
+            System.out.println("Saved Change");
         } 
         catch (Exception e) {
             System.out.println("Error");
-            
-            in.close();
-            writer.close();
         }
     }
     /*******************************************************************
