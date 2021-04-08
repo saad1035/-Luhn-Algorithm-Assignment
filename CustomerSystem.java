@@ -71,16 +71,16 @@ class CustomerSystem{
         Scanner reader = new Scanner(System.in);
 
         // Ask user for required information (name, city, postal code, credit card #)
-        System.out.println("First Name: ");
+        System.out.print("First Name: ");
         String firstName = reader.nextLine();
-        System.out.println("Last Name: ");
+        System.out.print("Last Name: ");
         String lastName = reader.nextLine();
         String fullName = firstName + " " + lastName;
-        System.out.println("City: ");
+        System.out.print("City: ");
         String userCity = reader.nextLine();
-        System.out.println("Postal Code (Avoid Spaces): ");
+        System.out.print("Postal Code (Avoid Spaces): ");
         String postalCode = reader.nextLine();
-        System.out.println("Credit Card Number (Avoid Spaces): ");
+        System.out.print("Credit Card Number (Avoid Spaces): ");
         String creditNumber = reader.nextLine();
 
         // Give them a chance to review the information they inputted and make changes if needed
@@ -96,15 +96,15 @@ class CustomerSystem{
         
         // If user chooses to reinput required information
         while (userChoice == 2) {
-            System.out.println("First Name: ");
+            System.out.print("First Name: ");
             firstName = reader.nextLine();
-            System.out.println("Last Name: ");
+            System.out.print("Last Name: ");
             lastName = reader.nextLine();
-            System.out.println("City: ");
+            System.out.print("City: ");
             userCity = reader.nextLine();
-            System.out.println("Postal Code (Avoid Spaces): ");
+            System.out.print("Postal Code (Avoid Spaces): ");
             postalCode = reader.nextLine();
-            System.out.println("Credit Card Number (Avoid Spaces): ");
+            System.out.print("Credit Card Number (Avoid Spaces): ");
             creditNumber = reader.nextLine();
 
             System.out.println("Thanks for filling out the information. Before we begin to validate we would like to confirm if");
