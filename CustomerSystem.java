@@ -6,16 +6,14 @@
  * */
 // Throughout this project, the use of data structures are not permitted such as methods like .split and .toCharArray
 
-
-
-
 import java.util.Scanner;
 // More packages may be imported in the space below
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 class CustomerSystem{
-    public static void main(String[] args){
+    public static void main(String[] args) throws FileNotFoundException{
         // Please do not edit any of these variables
         Scanner reader = new Scanner(System.in);
         String userInput, enterCustomerOption, generateCustomerOption, exitCondition;
@@ -24,8 +22,9 @@ class CustomerSystem{
         exitCondition = "9";
 
         // More variables for the main may be declared in the space below
-        String infoCombine;
+        String infoCombine = "";
         int customerId = 1;
+        String fileName = "";
 
         do{
             printMenu();                                    // Printing out the main menu
@@ -39,19 +38,23 @@ class CustomerSystem{
             }
             else if (userInput.equals(generateCustomerOption)) {
                 // Only the line below may be editted based on the parameter list and how you design the method return
-                generateCustomerDataFile();
+                if(customerId==2) {
+                    System.out.print("Enter File Name: ");
+                    fileName = reader.nextLine();
+                }
+                generateCustomerDataFile(infoCombine, fileName);
             }
             else{
                 System.out.println("Please type in a valid option (A number from 1-9)");
             }
 
-        } while (!userInput.equals(exitCondition));         // Exits once the user types 
+        } while (!userInput.equals(exitCondition));    // Exits once the user types 
         
         reader.close();
         System.out.println("Program Terminated");
     }
     public static void printMenu(){
-        System.out.println("Customer and Sales System\n"
+        System.out.println("\nCustomer and Sales System\n"
         .concat("1. Enter Customer Information\n")
         .concat("2. Generate Customer data file\n")
         .concat("3. Report on total Sales (Not done in this part)\n")
@@ -84,7 +87,7 @@ class CustomerSystem{
         String creditNumber = reader.nextLine();
 
         // Give them a chance to review the information they inputted and make changes if needed
-        System.out.println("Thanks for filling out the information. Before we begin to validate we would like to confirm if");
+        System.out.println("\nThanks for filling out the information. Before we begin to validate we would like to confirm if");
         System.out.println("the correct information was inputted. Please take a chance to review");
         System.out.println("Name: " + fullName);
         System.out.println("City: " + userCity);
@@ -107,7 +110,7 @@ class CustomerSystem{
             System.out.print("Credit Card Number (Avoid Spaces): ");
             creditNumber = reader.nextLine();
 
-            System.out.println("Thanks for filling out the information. Before we begin to validate we would like to confirm if");
+            System.out.println("\nThanks for filling out the information. Before we begin to validate we would like to confirm if");
             System.out.println("the correct information was inputted. Please take a chance to review");
             System.out.println("Name: " + firstName + " " + lastName);
             System.out.println("City: " + userCity);
@@ -123,14 +126,14 @@ class CustomerSystem{
             System.out.println("The credit card # you inputted is invalid. Please try again!");
             creditNumber = reader.nextLine();
         }
-	
-	while (validatePostalCode(postalCode) == false) {
+        
+        while (validatePostalCode(postalCode) == false) {
             System.out.println("The postal code you inputted is invalid. Please try again!");
             postalCode = reader.nextLine();
         }
-        
+
         // Combine the user information into one string and return it
-        String stringCombine = firstName + " " + lastName + " " + userCity + " " + postalCode + " " + creditNumber;
+        String stringCombine = customerId + " " + firstName + " " + lastName + " " + userCity + " " + postalCode + " " + creditNumber;
 
         // Close Scanner
         reader.close();
@@ -138,6 +141,7 @@ class CustomerSystem{
         // Return string
         return stringCombine;
     }
+
     /*
     * This method may be edited to achieve the task however you like.
     * The method may not nesessarily be a void return type
@@ -149,25 +153,24 @@ class CustomerSystem{
         String userPostal = postalCode.substring(0, 3);
 
         try {
-            File file = new File("postal_codes.csv");
+            File file = new File("C:/Users/he123/Java/Luhn Algorithm Assignment/postal_codes.csv/");
             Scanner scan = new Scanner(file);
             while(scan.hasNextLine()){
                 String line = scan.nextLine();
                 validPostal = line.substring(0, 3);
-                if(userPostal.equalsIgnoreCase(validPostal)){
-                    return true;
+                if(userPostal.equals(validPostal)){
                     scan.close();
+                    return true;
                 }
             }
-            return false;
             scan.close();
+            return false;
         }
         catch (Exception e) {
             return false;
-            scan.close();
         }
     }
-	
+
     /*
      * Validate the credit card number inputted through the use of an algorithm which determines if it's valid or invalid and sends it back to enterCustomerInfo() method
      * 
@@ -258,7 +261,24 @@ class CustomerSystem{
     * The method may not nesessarily be a void return type
     * This method may also be broken down further depending on your algorithm
     */
-    public static void generateCustomerDataFile(){
+    public static void generateCustomerDataFile(String stringCombine, String fileName) {
+        try {
+            Scanner in = new Scanner(System.in);
+
+            File csvFile = new File(fileName + ".csv");
+            PrintWriter writer = new PrintWriter(csvFile);
+
+            writer.write(stringCombine + "\n");
+
+            in.close();
+            writer.close();
+        } 
+        catch (Exception e) {
+            System.out.println("Error");
+            
+            in.close();
+            writer.close();
+        }
     }
     /*******************************************************************
     *       ADDITIONAL METHODS MAY BE ADDED BELOW IF NECESSARY         *
