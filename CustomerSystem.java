@@ -11,6 +11,8 @@
 
 import java.util.Scanner;
 // More packages may be imported in the space below
+import java.io.File;
+import java.io.FileNotFoundException;
 
 class CustomerSystem{
     public static void main(String[] args){
@@ -120,6 +122,11 @@ class CustomerSystem{
         while (validateCreditCard(creditNumber) == false) {
             System.out.println("The credit card # you inputted is invalid. Please try again!");
             creditNumber = reader.nextLine();
+        }
+	
+	while (validatePostalCode(postalCode) == false) {
+            System.out.println("The postal code you inputted is invalid. Please try again!");
+            postalCode = reader.nextLine();
         }
         
         // Combine the user information into one string and return it
