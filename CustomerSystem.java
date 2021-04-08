@@ -28,6 +28,8 @@ class CustomerSystem{
         String infoCombine = "";
         int customerId = 1;
         String fileName = "";
+        String customerFileLocation = "";
+        String customerFile = "";
 
         do{
             printMenu();                                    // Printing out the main menu
@@ -44,8 +46,14 @@ class CustomerSystem{
                 if(customerId==2) {
                     System.out.print("Enter File Name: ");
                     fileName = reader.nextLine();
+
+                    System.out.println("Enter File Location ");
+                    System.out.println("Ex: C:\\Users\\he123\\");
+                    customerFileLocation = reader.nextLine();
+
+                    customerFile = customerFileLocation + fileName + ".csv";
                 }
-                generateCustomerDataFile(infoCombine, fileName);
+                generateCustomerDataFile(infoCombine, customerFile);
             }
             else{
                 System.out.println("Please type in a valid option (A number from 1-9)");
@@ -66,6 +74,8 @@ class CustomerSystem{
         .concat("Enter menu option (1-9)\n")
         );
     }
+
+
     /*
      * Gets the user to input information regarding him - Name, City, Postal Code and Credit Card //#endregion
      * 
@@ -75,6 +85,8 @@ class CustomerSystem{
     public static String enterCustomerInfo(int customerId) {
         // Add Scanner To The Method
         Scanner reader = new Scanner(System.in);
+
+        String fileLocation = "";
 
         // Ask user for required information (name, city, postal code, credit card #)
         System.out.print("First Name: ");
@@ -124,39 +136,51 @@ class CustomerSystem{
             reader.nextLine();
         }
 
-        // If credit card is invalid, make them reinput valid credit card #
-        while (validateCreditCard(creditNumber) == false) {
-            System.out.println("The credit card # you inputted is invalid. Please try again!");
-            creditNumber = reader.nextLine();
-        }
-        
-        while (validatePostalCode(postalCode) == false) {
-            System.out.println("The postal code you inputted is invalid. Please try again!");
+        // If postal code is invalid, prompt user to reinput postal code
+        while (validatePostalCode(postalCode, fileLocation) == false) {
+            System.out.println("\nThe postal code you inputted is invalid. Please try again!");
+            System.out.print("Postal Code (Avoid Spaces): ");
             postalCode = reader.nextLine();
         }
 
+        // If credit card is invalid, make them reinput valid credit card #
+        while (validateCreditCard(creditNumber) == false) {
+            System.out.println("\nThe credit card # you inputted is invalid. Please try again!");
+            System.out.print("Credit Card Number (Avoid Spaces): ");
+            creditNumber = reader.nextLine();
+        }
+        
         // Combine the user information into one string and return it
         String stringCombine = customerId + "," + firstName + "," + lastName + "," + userCity + "," + postalCode + "," + creditNumber;
 
-        // Close Scanner
+        // Can't close scanner as it closes all scanners and error will arise
 
         // Return string
         return stringCombine;
     }
+
 
     /*
     * This method may be edited to achieve the task however you like.
     * The method may not nesessarily be a void return type
     * This method may also be broken down further depending on your algorithm
     */
-    public static boolean validatePostalCode(String postalCode){
+    public static boolean validatePostalCode(String postalCode, String fileLocation){
 
+        Scanner input = new Scanner(System.in);
         String validPostal = "";
+        
         String userPostal = postalCode.substring(0, 3);
 
+        System.out.println("\nEnter your postal_codes.csv file location: ");
+        System.out.println("Ex: C:\\Users\\he123\\Java\\-Luhn-Algorithm-Assignment\\postal_codes.csv");
+        fileLocation = input.nextLine();
+   
         try {
-            File file = new File("C:/Users/he123/Java/Luhn Algorithm Assignment/postal_codes.csv/");
+
+            File file = new File(fileLocation);
             Scanner scan = new Scanner(file);
+
             while(scan.hasNextLine()){
                 String line = scan.nextLine();
                 validPostal = line.substring(0, 3);
@@ -173,10 +197,12 @@ class CustomerSystem{
         }
     }
 
+
     /*
      * Validate the credit card number inputted through the use of an algorithm which determines if it's valid or invalid and sends it back to enterCustomerInfo() method
      * 
      * @param creditNumber - String of user's credit card number
+     * @exception  e - if it disrupts flow of code and characters arent a number
      * @return - True or false if card is valid 
     */
     public static boolean validateCreditCard(String creditNumber){
@@ -258,14 +284,16 @@ class CustomerSystem{
         // If algorithm doesn't come out to be true, return false
         return false;   
     }
+
+
     /*
     * This method may be edited to achieve the task however you like.
     * The method may not nesessarily be a void return type
     * This method may also be broken down further depending on your algorithm
     */
-    public static void generateCustomerDataFile(String stringCombine, String fileName) {
+    public static void generateCustomerDataFile(String stringCombine, String customerFile) {
         try {
-            FileWriter fw = new FileWriter(fileName + ".csv", true);
+            FileWriter fw = new FileWriter(customerFile, true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter writer = new PrintWriter(bw);
 
@@ -273,7 +301,8 @@ class CustomerSystem{
             writer.flush();
             writer.close();
 
-            System.out.println("Saved Change");
+            System.out.println("Changes Saved");
+            System.out.println("File Location: " + customerFile);
         } 
         catch (Exception e) {
             System.out.println("Error");
