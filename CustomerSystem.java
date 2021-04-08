@@ -143,8 +143,31 @@ class CustomerSystem{
     * The method may not nesessarily be a void return type
     * This method may also be broken down further depending on your algorithm
     */
-    public static void validatePostalCode(){
+    public static boolean validatePostalCode(String postalCode){
+
+        String validPostal = "";
+        String userPostal = postalCode.substring(0, 3);
+
+        try {
+            File file = new File("postal_codes.csv");
+            Scanner scan = new Scanner(file);
+            while(scan.hasNextLine()){
+                String line = scan.nextLine();
+                validPostal = line.substring(0, 3);
+                if(userPostal.equalsIgnoreCase(validPostal)){
+                    return true;
+                    scan.close();
+                }
+            }
+            return false;
+            scan.close();
+        }
+        catch (Exception e) {
+            return false;
+            scan.close();
+        }
     }
+	
     /*
      * Validate the credit card number inputted through the use of an algorithm which determines if it's valid or invalid and sends it back to enterCustomerInfo() method
      * 
