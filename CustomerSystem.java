@@ -224,7 +224,7 @@ class CustomerTest{
      * Validate the credit card number inputted through the use of an algorithm which determines if it's valid or invalid and sends it back to enterCustomerInfo() method
      * 
      * @param creditNumber - String of user's credit card number
-     * @exception  e - if it disrupts flow of code and characters arent a number
+     * @exception  e - if it disrupts flow of code and characters arent a number, it returns boolean false
      * @return - True or false if card is valid 
     */
     public static boolean validateCreditCard(String creditNumber){
