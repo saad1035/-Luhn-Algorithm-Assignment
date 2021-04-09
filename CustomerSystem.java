@@ -43,6 +43,7 @@ class CustomerTest{
                 infoCombine = enterCustomerInfo(customerId);
                 customerId++;
             }
+            // If user choose Generate Customer data file
             else if (userInput.equals(generateCustomerOption)) {
                 // Only the line below may be editted based on the parameter list and how you design the method return
 
@@ -308,7 +309,7 @@ class CustomerTest{
 
 
     /*
-     * Generate CSV file amd store all customer information
+     * Generate CSV file and store all customer information
      * 
      * @param stringCombine and customerFile - String of customer information and String of user's file name and location
      * @return void
