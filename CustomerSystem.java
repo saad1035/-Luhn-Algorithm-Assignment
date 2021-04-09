@@ -8,6 +8,7 @@
 
 import java.util.Scanner;
 // More packages may be imported in the space below
+// Import packages
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -15,7 +16,7 @@ import java.io.BufferedWriter;
 import java.io.*; 
 
 
-class CustomerSystem{
+class CustomerTest{
     public static void main(String[] args) throws FileNotFoundException{
         // Please do not edit any of these variables
         Scanner reader = new Scanner(System.in);
@@ -25,6 +26,7 @@ class CustomerSystem{
         exitCondition = "9";
 
         // More variables for the main may be declared in the space below
+        // Initialize variables
         String infoCombine = "";
         int customerId = 1;
         String fileName = "";
@@ -43,16 +45,21 @@ class CustomerSystem{
             }
             else if (userInput.equals(generateCustomerOption)) {
                 // Only the line below may be editted based on the parameter list and how you design the method return
+
+                // If it was user's first time generating a CSV file
                 if(customerId==2) {
+                    // Program prompt user for File name and File location
                     System.out.print("Enter File Name: ");
                     fileName = reader.nextLine();
 
-                    System.out.println("Enter File Location ");
+                    System.out.println("Enter File Location: ");
                     System.out.println("Ex: C:\\Users\\he123\\");
                     customerFileLocation = reader.nextLine();
 
+                    // Combine name and location to create a functional file pathway
                     customerFile = customerFileLocation + fileName + ".csv";
                 }
+                // Call generateCustomerDataFile(infoCombine, customerFile) method
                 generateCustomerDataFile(infoCombine, customerFile);
             }
             else{
@@ -77,7 +84,7 @@ class CustomerSystem{
 
 
     /*
-     * Gets the user to input information regarding him - Name, City, Postal Code and Credit Card //#endregion
+     * Gets the user to input information regarding he/she - Name, City, Postal Code and Credit Card
      * 
      * @param blankString - An empty string 
      * @return stringCombine - All the user input's combined (name, city, postal code, credit card)
@@ -85,8 +92,6 @@ class CustomerSystem{
     public static String enterCustomerInfo(int customerId) {
         // Add Scanner To The Method
         Scanner reader = new Scanner(System.in);
-
-        String fileLocation = "";
 
         // Ask user for required information (name, city, postal code, credit card #)
         System.out.print("First Name: ");
@@ -137,7 +142,7 @@ class CustomerSystem{
         }
 
         // If postal code is invalid, prompt user to reinput postal code
-        while (validatePostalCode(postalCode, fileLocation) == false) {
+        while (validatePostalCode(postalCode) == false) {
             System.out.println("\nThe postal code you inputted is invalid. Please try again!");
             System.out.print("Postal Code (Avoid Spaces): ");
             postalCode = reader.nextLine();
@@ -161,40 +166,56 @@ class CustomerSystem{
 
 
     /*
-    * This method may be edited to achieve the task however you like.
-    * The method may not nesessarily be a void return type
-    * This method may also be broken down further depending on your algorithm
+     * Validate the postal code inputted through the use of an algorithm which determines if it's valid or invalid and sends it back to enterCustomerInfo() method
+     * 
+     * @param postalCode - String of user's postal code
+     * @exception  e - Invalid file input
+     * @return - True or false if postal code is valid 
     */
-    public static boolean validatePostalCode(String postalCode, String fileLocation){
+    public static boolean validatePostalCode(String postalCode){
 
-        Scanner input = new Scanner(System.in);
+        // Declare variables that will be used throughout validation
+        String fileLocation = "";
         String validPostal = "";
+
+        // Add Scanner To The Method
+        Scanner input = new Scanner(System.in);
         
+        // Gets the first 3 characters from user's postal code 
         String userPostal = postalCode.substring(0, 3);
 
+        // Prompt user to input his/her postal_codes.csv file location
         System.out.println("\nEnter your postal_codes.csv file location: ");
         System.out.println("Ex: C:\\Users\\he123\\Java\\-Luhn-Algorithm-Assignment\\postal_codes.csv");
         fileLocation = input.nextLine();
    
         try {
-
+            // Initailize user's postal_codes.csv file     
             File file = new File(fileLocation);
+            // Intialize scanner to scan user's file
             Scanner scan = new Scanner(file);
 
+            // Checks the next line of the file
             while(scan.hasNextLine()){
+                // Takes the first 3 character (valid postal code) from the file
                 String line = scan.nextLine();
                 validPostal = line.substring(0, 3);
+                // If user postal code is equals to valid postal code
                 if(userPostal.equals(validPostal)){
+                    // Return true
                     scan.close();
                     return true;
                 }
             }
+            // After scan through the entire file, if there is no match valid postal code, then return false
             scan.close();
             return false;
         }
+        // Return false if invalid postal_codes.csv file input
         catch (Exception e) {
             return false;
         }
+        // Can't close input scanner as it cause error
     }
 
 
@@ -287,23 +308,28 @@ class CustomerSystem{
 
 
     /*
-    * This method may be edited to achieve the task however you like.
-    * The method may not nesessarily be a void return type
-    * This method may also be broken down further depending on your algorithm
+     * Generate CSV file amd store all customer information
+     * 
+     * @param stringCombine and customerFile - String of customer information and String of user's file name and location
+     * @return void
     */
     public static void generateCustomerDataFile(String stringCombine, String customerFile) {
         try {
+            // Intitalize file writer
             FileWriter fw = new FileWriter(customerFile, true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter writer = new PrintWriter(bw);
 
+            // Append new customer information
             writer.println(stringCombine);
             writer.flush();
             writer.close();
 
-            System.out.println("Changes Saved");
+            // Indicate the program had successfully saved changes and provide the CSV file location
+            System.out.println("\nChanges Saved");
             System.out.println("File Location: " + customerFile);
-        } 
+        }
+        // Output false if invalid customer file input 
         catch (Exception e) {
             System.out.println("Error");
         }
